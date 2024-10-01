@@ -1,0 +1,19 @@
+{% load bootstrap4 %}
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            <div class="help-text">{{ field.help_text }}</div>
+            {% if field.errors %}
+            <div class="alert alert-danger">
+                {{ field.errors }}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+   
+</form>

@@ -1,0 +1,52 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container text-center">
+    <form method="POST">
+        {% csrf_token %}
+        
+        <!-- Form for selecting measurement type -->
+        <div class="form-group">
+            <legend class="border-bottom mb-4">Select Measurement Type</legend>
+            {{ form|crispy }}  <!-- Added crispy tag for better form styling -->
+            <button class="btn btn-outline-info" type="submit">Select</button>
+        </div>
+
+        {% if input %}
+        <!-- Display input, measure1, and measure2 fields after the user selects a type -->
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Provide Conversion Values</legend>
+            <div class="row mb-2">
+                {{ m_form.input|as_crispy_field }}  <!-- Use crispy for consistent styling -->
+            </div>
+            <div class="row mb-2">
+                {{ m_form.measure1|as_crispy_field }}
+            </div>
+            <div class="row mb-2">
+                {{ m_form.measure2|as_crispy_field }}
+            </div>
+        </fieldset>
+
+        <!-- Display the answer (if available) -->
+        <fieldset class="form-group">
+            {% if answer %}
+            <div class="alert alert-info">
+                {{ answer }}
+            </div>
+            {% endif %}
+            {% if error %}
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+            {% endif %}
+        </fieldset>
+
+        <!-- Convert button for submitting the values -->
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Convert</button>
+        </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock content %}
